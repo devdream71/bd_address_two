@@ -13,13 +13,14 @@ class Division {
     required this.long,
   });
 
-  factory Division.fromJson(Map<String, dynamic> json) {
+  // Factory constructor to create a Division from a map
+  factory Division.fromJson(Map<String, String> json) {
     return Division(
-      id: json['id'],
-      name: json['name'],
-      bnName: json['bn_name'],
-      lat: json['lat'],
-      long: json['long'],
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      bnName: json['bn_name'] ?? '',
+      lat: json['lat'] ?? '',
+      long: json['long'] ?? '',
     );
   }
 }
