@@ -6,11 +6,17 @@ import 'package:bd_address_two/models/division.dart';
 import 'package:bd_address_two/models/upazila_model.dart';
 import 'package:flutter/material.dart';
 
-
 class DivisionDropdown extends StatefulWidget {
   final bool useBangla;
+  final bool showDistrict;
+  final bool showUpazila;
 
-  const DivisionDropdown({super.key, this.useBangla = false});
+  const DivisionDropdown({
+    super.key,
+    this.useBangla = false,
+    this.showDistrict = false,
+    this.showUpazila = false,
+  });
 
   @override
   DivisionDropdownState createState() => DivisionDropdownState();
@@ -51,10 +57,11 @@ class DivisionDropdownState extends State<DivisionDropdown> {
               selectedDivision = newValue;
               selectedDistrict = null; // Reset district
               selectedUpazila = null; // Reset upazila
-              districts = districtData.firstWhere(
-                (data) => data['division_id'] == newValue,
-                orElse: () => {'districts': []},
-              )['districts']
+              districts = districtData
+                  .firstWhere(
+                    (data) => data['division_id'] == newValue,
+                    orElse: () => {'districts': []},
+                  )['districts']
                   .map<District>((d) => District.fromJson(d))
                   .toList();
               upazilas = [];
@@ -71,8 +78,8 @@ class DivisionDropdownState extends State<DivisionDropdown> {
           }).toList(),
         ),
 
-        // District Dropdown
-        if (districts.isNotEmpty) ...[
+        // Conditionally show District Dropdown
+        if (widget.showDistrict && districts.isNotEmpty) ...[
           const SizedBox(height: 16),
           Text(
             widget.useBangla ? "জেলা নির্বাচন করুন" : "Select District",
@@ -120,8 +127,8 @@ class DivisionDropdownState extends State<DivisionDropdown> {
           ),
         ],
 
-        // Upazila Dropdown
-        if (upazilas.isNotEmpty) ...[
+        // Conditionally show Upazila Dropdown
+        if (widget.showUpazila && upazilas.isNotEmpty) ...[
           const SizedBox(height: 16),
           Text(
             widget.useBangla ? "উপজেলা নির্বাচন করুন" : "Select Upazila",
@@ -152,6 +159,4 @@ class DivisionDropdownState extends State<DivisionDropdown> {
     );
   }
 }
-
-
 
